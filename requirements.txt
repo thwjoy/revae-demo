@@ -1,0 +1,7 @@
+colorlover>=0.2.1
+dash==1.12.0
+matplotlib==3.2.1
+numpy==1.18.5
+plotly==4.8.1
+torch==1.5.0
+torchvision==0.6.0
