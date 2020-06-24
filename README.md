@@ -14,3 +14,7 @@ A simple notebook example to demonstrate ReVAEs ability to manipulate labelled c
 ``` shell
 jupyter notebook main.ipynb
 ```
+
+#### Training Code
+
+Training code will be released soon.
