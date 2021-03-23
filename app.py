@@ -58,7 +58,7 @@ app.layout = html.Div(
                             id="banner-title",
                             children=[
                                 html.A(
-                                    "ReVae: Rethinking Semi-Supervised Learning",
+                                    "CCVAE: Capturing Label Characteristics in VAEs",
                                     href="",
                                     style={
                                         "text-decoration": "none",
@@ -70,7 +70,7 @@ app.layout = html.Div(
                         html.A(
                             id="banner-logo",
                             children=[
-                                html.Img(src=app.get_asset_url("neurips.png"))
+                                html.Img(src=app.get_asset_url("iclr.svg"), style={'height':'10%', 'width':'10%'})
                             ],
                             href="",
                         ),
