@@ -2,6 +2,8 @@
 
 A simple notebook example to demonstrate ReVAEs ability to manipulate labelled characteristics on CelebA.
 
+Training code is available here: https://github.com/thwjoy/ccvae
+
 #### Dependencies
 
 * pytorch (tested on v1.5)
