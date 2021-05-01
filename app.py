@@ -93,7 +93,7 @@ app.layout = html.Div(
                                     id="first-card",
                                     children=[
                                         html.Button(
-                                            "Change picture",
+                                            "Change pictures",
                                             id="change_pic",
                                         ),
                                     ],
@@ -313,7 +313,7 @@ def update_svm_graph(
         #batch = data[np.random.choice(data.size(0), 100)]
         #grid = make_grid(batch, nrow=10)
 
-        coords = n_clicks
+        coords = 4*n_clicks % 100
     
         #img = batch[(9 - int(coords[2])) * 10 + int(coords[0])]
         #recon = revae.reconstruct_img(img.unsqueeze(0))[0].detach()
@@ -328,15 +328,35 @@ def update_svm_graph(
     grid = make_grid(batch, nrow=10)
 
     img = batch[coords]
-    recon = revae.reconstruct_img(img.unsqueeze(0))[0].detach()
+    img1 = batch[coords+1]
+    img2 = batch[coords+2]
+    img3 = batch[coords+3]
+    # recon = revae.reconstruct_img(img.unsqueeze(0))[0].detach()
+    # recon1 = revae.reconstruct_img(img1.unsqueeze(0))[0].detach()
+    # recon2 = revae.reconstruct_img(img2.unsqueeze(0))[0].detach()
+    # recon3 = revae.reconstruct_img(img3.unsqueeze(0))[0].detach()
+    # z = revae._z_prior_fn(*revae.encoder_z(img.unsqueeze(0))).sample()
     z = revae._z_prior_fn(*revae.encoder_z(img.unsqueeze(0))).sample()
-    z = revae._z_prior_fn(*revae.encoder_z(img.unsqueeze(0))).sample()
+    z1 = revae._z_prior_fn(*revae.encoder_z(img1.unsqueeze(0))).sample()
+    z2 = revae._z_prior_fn(*revae.encoder_z(img2.unsqueeze(0))).sample()
+    z3 = revae._z_prior_fn(*revae.encoder_z(img3.unsqueeze(0))).sample()
 
     for i, slider in enumerate(sliders):
         z[0, i] = torch.tensor([[slider]])
+        z1[0, i] = torch.tensor([[slider]])
+        z2[0, i] = torch.tensor([[slider]])
+        z3[0, i] = torch.tensor([[slider]])
     with torch.no_grad():
         img = revae.decoder(z).squeeze()
-        fig = px.imshow(img.permute(1, 2, 0))
+        img1 = revae.decoder(z1).squeeze()
+        img2 = revae.decoder(z2).squeeze()
+        img3 = revae.decoder(z3).squeeze()
+        # fig = px.imshow(img.permute(1, 2, 0))
+        img_sequence_1 = np.concatenate([img.permute(1, 2, 0).numpy(), img1.permute(1, 2, 0).numpy()], axis=1)
+        img_sequence_2 = np.concatenate([img2.permute(1, 2, 0).numpy(), img3.permute(1, 2, 0).numpy()], axis=1)
+        img_out = np.concatenate([img_sequence_1, img_sequence_2], axis=0)
+        # print(np.transpose(img_sequence, (1, 2, 0)).shape)
+        fig = px.imshow(img_out)
 
     axis_template = dict(showgrid = False, zeroline = False,
             linecolor = 'black', showticklabels = False)
